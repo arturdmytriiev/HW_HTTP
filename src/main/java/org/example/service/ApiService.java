@@ -106,7 +106,6 @@ public class ApiService {
                 .build();
 
         HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         var post = mapper.readValue(response.body(), new TypeReference<PostDto[]>() {});
         PostDto lastPost = Arrays.stream(post)
                 .max(Comparator.comparing(PostDto::id))
@@ -117,7 +116,6 @@ public class ApiService {
                 .build();
 
         HttpResponse<String> responseComm = client.send(commentsRequest,HttpResponse.BodyHandlers.ofString());
-        System.out.println(responseComm);
         String fileName = postID + "-post-" + lastPost.id() + "-comments.json";
         Files.writeString(Path.of(fileName), responseComm.body());
     }
